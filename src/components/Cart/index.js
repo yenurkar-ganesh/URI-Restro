@@ -26,7 +26,15 @@ const Cart = () => (
             <h2>Total Price</h2>
             <div className="total-section">
               <p className="order-meta">
-                <span> Order Price - </span>
+                <span>
+                  {' '}
+                  Order Price (
+                  {cartList.reduce(
+                    (total, eachquantitu) => total + eachquantitu.quantity,
+                    0,
+                  )}
+                  ) -
+                </span>
                 {totalOrderPrice}
               </p>
               <p className="order-meta">
@@ -34,10 +42,10 @@ const Cart = () => (
                 {discount}
               </p>
               <hr className="line" />
-              <p className="order-meta">
+              <h4 className="order-meta">
                 <span>Total Price - </span>
                 {priceAfterDiscount}
-              </p>
+              </h4>
             </div>
           </div>
         </div>
