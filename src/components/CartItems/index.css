@@ -1,0 +1,20 @@
+.order-card {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  min-height: 18vh;
+  border-radius: 14px;
+  padding: 8px 16px;
+  width: 360px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.dish-card-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 14px;
+}

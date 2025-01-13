@@ -23,7 +23,7 @@ const App = () => {
           eachItem.id === dish.dish_id
             ? {
                 ...eachItem,
-                quantity: (eachItem.quantity || 0) + 1, // Fix: Properly increment quantity
+                quantity: (eachItem.quantity || 0) + 1,
               }
             : eachItem,
         )
@@ -33,12 +33,32 @@ const App = () => {
         ...prevList,
         {
           ...dish,
-          id: dish.dish_id, // Ensure the correct `id` field is added
-          quantity: 1, // Set initial quantity to 1 for new items
+          id: dish.dish_id,
+          quantity: 1,
         },
       ]
     })
     console.log(`added`)
+  }
+  const decrementHandler = dish => {
+    setCartList(prevList => {
+      const updatedList = prevList
+        .map(eachItem => {
+          if (eachItem.id === dish.dish_id) {
+            const updatedQuantity = eachItem.quantity - 1
+            return updatedQuantity > 0
+              ? {
+                  ...eachItem,
+                  quantity: updatedQuantity,
+                }
+              : null
+          }
+          return eachItem
+        })
+        .filter(item => item !== null) // Remove items with null
+
+      return updatedList // Ensure the updated list is returned
+    })
   }
 
   useEffect(() => {
@@ -46,7 +66,6 @@ const App = () => {
   }, [cartList])
 
   console.log(cartList)
-  const decrementHandler = () => {}
 
   return (
     <CartContext.Provider
