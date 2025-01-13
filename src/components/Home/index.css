@@ -1,0 +1,17 @@
+.restro-table-menu-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-bottom: 1px solid lightgray;
+  margin: 0;
+  padding: 8px 0px;
+}
+.category-dishes-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 2rem auto;
+}

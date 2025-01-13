@@ -1,0 +1,29 @@
+.restro-category {
+  list-style: none;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+.restro-category p {
+  font-size: 16px;
+  font-family: Roboto;
+}
+.categoryBtn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.active {
+  transform: scale(1.05);
+  color: salmon;
+  border-bottom: 2px solid salmon;
+  border-bottom-color: salmon;
+}
+.restro-category:hover, .categoryBtn:hover {
+  color: salmon;
+}
