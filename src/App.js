@@ -1,12 +1,15 @@
 import './App.css'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import Home from './components/Home'
 import Cart from './components/Cart'
 import CartContext from './context/CartContext'
 
 const App = () => {
-  const [cartList, setCartList] = useState([])
+  const [cartList, setCartList] = useState(() => {
+    const storedCart = localStorage.getItem('cartList')
+    return storedCart ? JSON.parse(storedCart) : []
+  })
 
   const incrementHandler = dish => {
     setCartList(prevList => {
@@ -37,6 +40,10 @@ const App = () => {
     })
     console.log(`added`)
   }
+
+  useEffect(() => {
+    localStorage.setItem('cartList', JSON.stringify(cartList))
+  }, [cartList])
 
   console.log(cartList)
   const decrementHandler = () => {}
