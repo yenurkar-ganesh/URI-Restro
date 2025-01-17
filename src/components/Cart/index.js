@@ -6,12 +6,12 @@ const Cart = () => (
   <CartContext.Consumer>
     {value => {
       const {cartList} = value
-      let totalOrderPrice = cartList.reduce(
+      const totalOrderPrice = cartList.reduce(
         (total, eachItem) => total + eachItem.dish_price * eachItem.quantity,
         0,
       )
-      let discount = (totalOrderPrice * 0.1).toFixed(2)
-      let priceAfterDiscount = (totalOrderPrice - discount).toFixed(2)
+      const discount = (totalOrderPrice * 0.1).toFixed(2)
+      const priceAfterDiscount = (totalOrderPrice - discount).toFixed(2)
 
       return (
         <div className="cart-container">

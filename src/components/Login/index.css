@@ -1,0 +1,132 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  font-family: DM Sans;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+}
+.login-info-section {
+  height: 100vh;
+  color: aliceblue;
+  width: 50%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-section {
+  height: 100vh;
+  color: aliceblue;
+  width: 50%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-header {
+  font-size: 55px;
+  letter-spacing: 0px;
+  line-height: 55px;
+  font-family: 'Termina Test', sans-serif;
+}
+.form {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+  min-height: 50vh;
+  height: auto;
+  border-radius: 14px;
+  padding: 8px 24px;
+  width: 360px;
+  background-color: aliceblue;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+.form h2 {
+  font-family: 'Termina Test', sans-serif;
+}
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 2rem;
+}
+.labels {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgb(88, 88, 88);
+}
+.inputs {
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  font-size: 15px;
+}
+/* .loginBtn {
+  margin-top: 1.5rem;
+  padding: 8px 24px;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  color: aliceblue;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 15px;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-self: flex-end;
+} */
+
+.errorMsg {
+  color: #ff033e;
+  letter-spacing: 1px;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 1rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.btn-grad {
+  background-image: linear-gradient(
+    to right,
+    #085078 0%,
+    #85d8ce 51%,
+    #085078 100%
+  );
+}
+.btn-grad {
+  border: none;
+  outline: none;
+  margin-top: 1.8rem;
+  padding: 8px 26px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 7px;
+  display: block;
+  cursor: pointer;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}

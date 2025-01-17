@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import Home from './components/Home'
 import Cart from './components/Cart'
+import Login from './components/Login'
 import CartContext from './context/CartContext'
 
 const App = () => {
@@ -16,7 +17,6 @@ const App = () => {
       const isDishExist = prevList.find(
         eachDish => eachDish.id === dish.dish_id,
       )
-      //   console.log(isDishExist)
 
       if (isDishExist) {
         return prevList.map(eachItem =>
@@ -78,6 +78,7 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/cart" component={Cart} />
         </Switch>
       </BrowserRouter>
