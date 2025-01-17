@@ -12,6 +12,7 @@ const TableMenu = ({eachCategory, categoryDishes, activeCategory}) => {
   return (
     <li className={`restro-category ${activeClassName}`}>
       <button
+        type="button"
         className={`categoryBtn ${activeClassName}`}
         onClick={categoryClickHandler}
       >

@@ -1,17 +1,27 @@
 import './index.css'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import {IoIosCart} from 'react-icons/io'
 import CartContext from '../../context/CartContext'
 
-const Navbar = () => (
+const Navbar = props => (
   <CartContext.Consumer>
     {value => {
       const {cartList} = value
+      const {restroName} = props
+      const logountHandler = () => {
+        const {history} = props
+        Cookies.remove('jwt_token')
+        history.replace('/login')
+      }
+
       return (
         <nav className="navbar">
           <ul className="nav-list ">
             <li className="nav-list-item">
-              <h1 className="nav-heading">UNI Restro Cafe</h1>
+              <Link to="/" className="nav-link">
+                <h1 className="nav-heading">{restroName} </h1>
+              </Link>
             </li>
             <li className="nav-list-item">
               <p>My Orders</p>
@@ -19,6 +29,13 @@ const Navbar = () => (
                 <IoIosCart size={25} />
                 <p className="list-count">{cartList.length} </p>
               </Link>
+              <button
+                onClick={logountHandler}
+                type="button"
+                className="logoutBtn"
+              >
+                LOGOUT
+              </button>
             </li>
           </ul>
         </nav>
@@ -27,4 +44,4 @@ const Navbar = () => (
   </CartContext.Consumer>
 )
 
-export default Navbar
+export default withRouter(Navbar)

@@ -5,6 +5,7 @@ import Home from './components/Home'
 import Cart from './components/Cart'
 import Login from './components/Login'
 import CartContext from './context/CartContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   const [cartList, setCartList] = useState(() => {
@@ -61,6 +62,11 @@ const App = () => {
     })
   }
 
+  const removeAllCartItems = () => {
+    setCartList([])
+    localStorage.removeItem('cartList', JSON.stringify(cartList))
+  }
+
   useEffect(() => {
     localStorage.setItem('cartList', JSON.stringify(cartList))
   }, [cartList])
@@ -73,13 +79,14 @@ const App = () => {
         cartList,
         incrementToCartHandler: incrementHandler,
         decrementToCartHandler: decrementHandler,
+        removeAllCartItems: removeAllCartItems,
       }}
     >
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <ProtectedRoute exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/cart" component={Cart} />
+          <ProtectedRoute exact path="/cart" component={Cart} />
         </Switch>
       </BrowserRouter>
     </CartContext.Provider>

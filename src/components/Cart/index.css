@@ -29,6 +29,33 @@
 }
 .line {
   border: none;
-  border-top: 2px dashed #888; /* Set border width, style, and color */
-  margin: 20px 0; /* Optional: Add spacing above and below */
+  border-top: 2px dashed #888;
+  margin: 20px 0;
+}
+.cart-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.empty-cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+}
+.empty-cart-container h2 {
+  font-family: 'Termina Test', sans-serif;
+}
+.remove-btn {
+  background-color: #fd5c63;
+  color: aliceblue;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 24px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 8px;
 }

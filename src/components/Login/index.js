@@ -10,9 +10,9 @@ class Login extends Component {
     submitErr: false,
   }
 
-  onSubmitSuccessHandler = jwt_token => {
+  onSubmitSuccessHandler = jwtToken => {
     const {history} = this.props
-    Cookies.set('jwt_token', jwt_token, {expires: 1})
+    Cookies.set('jwt_token', jwtToken, {expires: 1})
     history.replace('/')
   }
 

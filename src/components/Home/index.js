@@ -48,13 +48,20 @@ class Home extends Component {
   }
 
   render() {
-    const {restroTableMenu, isLoading, activeCategory, categoryDishes} =
-      this.state
-    // console.log(categoryDishes)
+    const {
+      restroTableMenu,
+      isLoading,
+      activeCategory,
+      categoryDishes,
+      initialRestroData,
+    } = this.state
+    console.log(initialRestroData)
+    const restroName = initialRestroData.restaurant_name
+    console.log(restroName)
 
     return (
       <div className="">
-        <Navbar />
+        <Navbar restroName={restroName} />
         <ul className="restro-table-menu-category">
           {isLoading ? (
             <p>Loading</p>

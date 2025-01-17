@@ -14,7 +14,12 @@
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .dish-card-img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 260px;
   border-radius: 14px;
+}
+.cart-btns-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
