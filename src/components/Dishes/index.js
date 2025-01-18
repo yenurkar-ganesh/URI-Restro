@@ -14,12 +14,8 @@ const Dishes = ({dish}) => {
     dish_image,
   } = dish
 
-  const {
-    cartList,
-    incrementCartItemQuantity,
-    decrementCartItemQuantity,
-    addToCart,
-  } = useContext(CartContext)
+  const {cartList, incrementCartItemQuantity, decrementCartItemQuantity} =
+    useContext(CartContext)
   const [quantity, setQuantity] = useState(0)
 
   // Sync local quantity state with cartList
@@ -29,17 +25,12 @@ const Dishes = ({dish}) => {
   }, [cartList, dish_name])
 
   const incrementBtn = () => {
-    if (quantity === 0) {
-      addToCart(dish) // Add item to cart if not already present
-    } else {
-      incrementCartItemQuantity(dish)
-    }
+    incrementCartItemQuantity(dish)
+    console.log(dish)
   }
 
   const decrementHandler = () => {
-    if (quantity > 0) {
-      decrementCartItemQuantity(dish)
-    }
+    decrementCartItemQuantity(dish)
   }
 
   return (
@@ -51,7 +42,7 @@ const Dishes = ({dish}) => {
           <p className="dish-price">{dish_price}</p>
         </div>
         <p className="dish-desc">{dish_description}</p>
-        {dish_Availability ? (
+        {dish_Availability && (
           <div className="btns-section">
             <button
               onClick={incrementBtn}
@@ -69,19 +60,12 @@ const Dishes = ({dish}) => {
               -
             </button>
           </div>
-        ) : (
-          <p className="not-avail">Not available</p>
         )}
-        <button
-          type="button"
-          className="add-to-cart-btn"
-          onClick={incrementBtn}
-        >
-          ADD TO CART
-        </button>
+        <button type="button">ADD TO CART</button>
         {addonCat.length > 0 && (
           <p className="customization">Customization available</p>
         )}
+        {!dish_Availability && <p className="not-avail">Not available</p>}
       </div>
       <p className="dish-calories">{dish_calories} calories</p>
       <img className="dish-img" src={dish_image} alt={dish_name} />
