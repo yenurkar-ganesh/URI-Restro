@@ -1,17 +1,29 @@
 import './index.css'
 import CartContext from '../../context/CartContext'
+import {IoRemove} from 'react-icons/io5'
 
 const CartItems = ({eachOrder}) => (
   <CartContext.Consumer>
     {value => {
-      const {incrementToCartHandler, decrementToCartHandler} = value
+      const {
+        incrementCartItemQuantity,
+        decrementCartItemQuantity,
+        removeCartItem,
+      } = value
 
       const incrementBtn = () => {
-        incrementToCartHandler(eachOrder)
+        incrementCartItemQuantity(eachOrder) // Calls the increment function in CartContext
       }
 
       const decrementHandler = () => {
-        decrementToCartHandler(eachOrder)
+        decrementCartItemQuantity(eachOrder) // Calls the decrement function in CartContext
+        if (eachOrder.quantity <= 1) {
+          removeCartItem(eachOrder.dish_id) // Removes the item when quantity reaches 0
+        }
+      }
+
+      const removeHandler = () => {
+        removeCartItem(eachOrder.dish_id) // Removes the item when "Remove" is clicked
       }
 
       const {
@@ -64,6 +76,14 @@ const CartItems = ({eachOrder}) => (
                 data-testid="decrementBtn"
               >
                 -
+              </button>
+              <button
+                onClick={removeHandler}
+                className="removeBtn"
+                type="button"
+                data-testid="removeBtn"
+              >
+                <IoRemove />
               </button>
             </div>
           </div>

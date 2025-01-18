@@ -3,6 +3,8 @@ import './index.css'
 import Navbar from '../Navbar'
 import TableMenu from '../TableMenu'
 import Dishes from '../Dishes'
+import {ThreeDots} from 'react-loader-spinner'
+import Loader from 'react-loader-spinner'
 
 class Home extends Component {
   state = {
@@ -64,7 +66,9 @@ class Home extends Component {
         <Navbar restroName={restroName} />
         <ul className="restro-table-menu-category">
           {isLoading ? (
-            <p>Loading</p>
+            <div className="loader-container" data-testid="loader">
+              <Loader type="ThreeDots" color="#FF033E" height="50" width="50" />
+            </div>
           ) : (
             restroTableMenu.map(eachCategory => (
               <TableMenu
@@ -77,9 +81,15 @@ class Home extends Component {
           )}
         </ul>
         <ul className="category-dishes-list">
-          {categoryDishes.map(dish => (
-            <Dishes key={dish.dish_id} dish={dish} />
-          ))}
+          {isLoading ? (
+            <div className="loader-container" data-testid="loader">
+              <Loader type="ThreeDots" color="#FF033E" height="50" width="50" />
+            </div>
+          ) : (
+            categoryDishes.map(dish => (
+              <Dishes key={dish.dish_id} dish={dish} />
+            ))
+          )}
         </ul>
       </div>
     )

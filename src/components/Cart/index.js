@@ -6,7 +6,8 @@ import Navbar from '../Navbar'
 const Cart = () => (
   <CartContext.Consumer>
     {value => {
-      const { cartList, removeAllCartItems } = value
+      const {cartList, removeAllCartItems} = value
+
       const totalOrderPrice = cartList.reduce(
         (total, eachItem) => total + eachItem.dish_price * eachItem.quantity,
         0,
@@ -15,7 +16,7 @@ const Cart = () => (
       const priceAfterDiscount = (totalOrderPrice - discount).toFixed(2)
 
       const removeAllHandler = () => {
-        removeAllCartItems()
+        removeAllCartItems() // Ensures the function in CartContext is triggered
       }
 
       return (
@@ -35,10 +36,10 @@ const Cart = () => (
               <div className="cart-header-section">
                 <h1>My {cartList.length > 1 ? 'Orders' : 'Order'}:</h1>
                 <button
-                  onClick={removeAllHandler}
                   type="button"
                   className="remove-btn"
                   data-testid="removeAllButton"
+                  onClick={removeAllHandler}
                 >
                   Remove All
                 </button>
@@ -54,11 +55,12 @@ const Cart = () => (
                 <div className="total-section">
                   <p className="order-meta">
                     <span>
-                      Order Price ({cartList.reduce(
+                      Order Price (
+                      {cartList.reduce(
                         (total, item) => total + item.quantity,
                         0,
                       )}
-                      ) -
+                      ) -{' '}
                     </span>
                     {totalOrderPrice}
                   </p>

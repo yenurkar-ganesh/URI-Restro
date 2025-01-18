@@ -12,6 +12,7 @@
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  position: relative;
 }
 .dish-card-img {
   width: 200px;
@@ -22,4 +23,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.removeBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #d2122e;
+  cursor: pointer;
+  display: none;
+  transition: all 0.5s ease;
+  font-size: 28px;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.order-card:hover {
+  .removeBtn {
+    display: block;
+  }
 }

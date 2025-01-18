@@ -67,6 +67,12 @@ const App = () => {
     localStorage.removeItem('cartList', JSON.stringify(cartList))
   }
 
+  const removeCartItemHandler = dishId => {
+    setCartList(prevList =>
+      prevList.filter(eachDish => eachDish.dish_id !== dishId),
+    )
+  }
+
   useEffect(() => {
     localStorage.setItem('cartList', JSON.stringify(cartList))
   }, [cartList])
@@ -77,9 +83,10 @@ const App = () => {
     <CartContext.Provider
       value={{
         cartList,
-        incrementToCartHandler: incrementHandler,
-        decrementToCartHandler: decrementHandler,
+        incrementCartItemQuantity: incrementHandler,
+        decrementCartItemQuantity: decrementHandler,
         removeAllCartItems: removeAllCartItems,
+        removeCartItem: removeCartItemHandler,
       }}
     >
       <BrowserRouter>

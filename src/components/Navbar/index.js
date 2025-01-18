@@ -26,8 +26,10 @@ const Navbar = props => (
             <li className="nav-list-item">
               <p>My Orders</p>
               <Link className="cart-link" to="/cart">
-                <IoIosCart size={25} />
-                <p className="list-count">{cartList.length} </p>
+                <button className="cart-btn" testid="cart">
+                  <IoIosCart size={25} />
+                  <p className="list-count">{cartList.length} </p>
+                </button>
               </Link>
               <button
                 onClick={logountHandler}
