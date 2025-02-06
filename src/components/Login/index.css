@@ -18,7 +18,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
+.login-info-section h1 h2{
+  margin: 0px;
+}
+
 .login-section {
   height: 100vh;
   color: aliceblue;

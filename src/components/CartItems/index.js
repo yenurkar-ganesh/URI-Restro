@@ -11,21 +11,6 @@ const CartItems = ({eachOrder}) => (
         removeCartItem,
       } = value
 
-      const incrementBtn = () => {
-        incrementCartItemQuantity(eachOrder) // Calls the increment function in CartContext
-      }
-
-      const decrementHandler = () => {
-        decrementCartItemQuantity(eachOrder) // Calls the decrement function in CartContext
-        if (eachOrder.quantity <= 1) {
-          removeCartItem(eachOrder.dish_id) // Removes the item when quantity reaches 0
-        }
-      }
-
-      const removeHandler = () => {
-        removeCartItem(eachOrder.dish_id) // Removes the item when "Remove" is clicked
-      }
-
       const {
         dish_id,
         dish_currency,
@@ -35,55 +20,67 @@ const CartItems = ({eachOrder}) => (
         quantity,
       } = eachOrder
 
-      const eachOrderTotalPrice = quantity * dish_price
+      const updatedDish = {
+        id: dish_id,
+        dishCurrency: dish_currency,
+        dishImage: dish_image,
+        dishName: dish_name,
+        dishPrice: dish_price,
+        quantity,
+      }
+
+      const eachOrderTotalPrice = updatedDish.quantity * updatedDish.dishPrice
 
       return (
-        <li
-          className="order-card"
-          id={dish_id}
-          data-testid={`cartItem-${dish_id}`}
-        >
+        <li className='cart-item'>
           <img
-            className="dish-card-img"
-            src={dish_image}
-            alt={dish_name}
-            data-testid="dishImage"
+            className='cart-product-image'
+            src={updatedDish.dishName}
+            alt={updatedDish.dishName}
           />
-          <div className="dish-card-info">
-            <h3 data-testid="dishName">{dish_name}</h3>
-            <p>Quantity: {quantity}</p>
-            <p className="card-price-section">
-              Price: <span>{dish_currency}</span>
-              <span>{eachOrderTotalPrice}</span>
-            </p>
-            <hr />
-            <div className="cart-btns-section">
-              <button
-                onClick={incrementBtn}
-                className="incrementBtn"
-                type="button"
-                data-testid="incrementBtn"
-              >
-                +
-              </button>
-              <p className="counter" data-testid="dishQuantity">
-                {quantity}
+          <div className='cart-item-details-container'>
+            <div className='cart-product-title-brand-container'>
+              <p className='cart-product-title'>dishName</p>
+              <p className='cart-product-brand'>
+                by {updatedDish.dishCurrency} {updatedDish.dishPrice}
               </p>
+            </div>
+            <div className='cart-quantity-container'>
               <button
-                onClick={decrementHandler}
-                className="decrementBtn"
-                type="button"
-                data-testid="decrementBtn"
+                type='button'
+                className='quantity-controller-button'
+                onClick={() => decrementCartItemQuantity(eachOrder.dish_id)}
+                aria-label='Decrement quantity'
+                data-testid='minus'
               >
                 -
               </button>
+
+              <p className='cart-quantity' data-testid={`quantity-${dish_id}`}>
+                {updatedDish.quantity}
+              </p>
               <button
-                onClick={removeHandler}
-                className="removeBtn"
-                type="button"
-                data-testid="removeBtn"
+                type='button'
+                className='quantity-controller-button'
+                onClick={() => incrementCartItemQuantity(eachOrder)}
+                aria-label='Increment quantity'
+                data-testid='plus'
               >
-                <IoRemove />
+                +
+              </button>
+            </div>
+            <div className='total-price-remove-container'>
+              <p className='cart-total-price'>
+                {updatedDish.dishCurrency} {eachOrderTotalPrice}/-
+              </p>
+              <button
+                type='button'
+                className='remove-button'
+                onClick={() => removeCartItem(updatedDish.id)}
+                aria-label='Remove item'
+                data-testid='remove'
+              >
+                <IoRemove color='#D9534F' size={16} />
               </button>
             </div>
           </div>

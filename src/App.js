@@ -2,7 +2,7 @@ import './App.css'
 import {useState, useEffect} from 'react'
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import Home from './components/Home'
-import Cart from './components/Cart'
+import CartRoute from './components/CartRoute'
 import Login from './components/Login'
 import CartContext from './context/CartContext'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -13,87 +13,73 @@ const App = () => {
     return storedCart ? JSON.parse(storedCart) : []
   })
 
-  const incrementHandler = dish => {
-    setCartList(prevList => {
-      const isDishExist = prevList.find(
-        eachDish => eachDish.id === dish.dish_id,
-      )
-
-      if (isDishExist) {
-        return prevList.map(eachItem =>
-          eachItem.id === dish.dish_id
-            ? {
-                ...eachItem,
-                quantity: (eachItem.quantity || 0) + 1,
-              }
-            : eachItem,
-        )
-      }
-
-      return [
-        ...prevList,
-        {
-          ...dish,
-          id: dish.dish_id,
-          quantity: 1,
-        },
-      ]
-    })
-    console.log(`added`)
+  const incrementCartItemQuantity = dish => {
+    setCartList(prevList =>
+      prevList.map(eachDish =>
+        eachDish.dish_id === dish.dish_id
+          ? {...eachDish, quantity: eachDish.quantity + 1}
+          : eachDish,
+      ),
+    )
   }
-  const decrementHandler = dish => {
-    setCartList(prevList => {
-      const updatedList = prevList
-        .map(eachItem => {
-          if (eachItem.id === dish.dish_id) {
-            const updatedQuantity = eachItem.quantity - 1
-            return updatedQuantity > 0
-              ? {
-                  ...eachItem,
-                  quantity: updatedQuantity,
-                }
-              : null
-          }
-          return eachItem
-        })
-        .filter(item => item !== null) // Remove items with null
 
-      return updatedList // Ensure the updated list is returned
-    })
+  const decrementCartItemQuantity = dishId => {
+    setCartList(prevList =>
+      prevList.map(item =>
+        item.dish_id === dishId && item.quantity > 0
+          ? {...item, quantity: item.quantity - 1}
+          : item,
+      ),
+    )
   }
 
   const removeAllCartItems = () => {
     setCartList([])
-    localStorage.removeItem('cartList', JSON.stringify(cartList))
   }
 
-  const removeCartItemHandler = dishId => {
+  const removeCartItem = dishId => {
     setCartList(prevList =>
       prevList.filter(eachDish => eachDish.dish_id !== dishId),
     )
+  }
+
+  const addCartItem = newItem => {
+    setCartList(prevList => {
+      const existingItem = prevList.find(
+        item => item.dish_id === newItem.dish_id,
+      )
+
+      if (existingItem) {
+        return prevList.map(item =>
+          item.dish_id === newItem.dish_id
+            ? {...item, quantity: item.quantity + newItem.quantity}
+            : item,
+        )
+      }
+      return [...prevList, newItem]
+    })
   }
 
   useEffect(() => {
     localStorage.setItem('cartList', JSON.stringify(cartList))
   }, [cartList])
 
-  console.log(cartList)
-
   return (
     <CartContext.Provider
       value={{
         cartList,
-        incrementCartItemQuantity: incrementHandler,
-        decrementCartItemQuantity: decrementHandler,
-        removeAllCartItems: removeAllCartItems,
-        removeCartItem: removeCartItemHandler,
+        incrementCartItemQuantity,
+        decrementCartItemQuantity,
+        removeAllCartItems,
+        removeCartItem,
+        addCartItem,
       }}
     >
       <BrowserRouter>
         <Switch>
           <ProtectedRoute exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
-          <ProtectedRoute exact path="/cart" component={Cart} />
+          <Route exact path="/cart" component={CartRoute} />
         </Switch>
       </BrowserRouter>
     </CartContext.Provider>

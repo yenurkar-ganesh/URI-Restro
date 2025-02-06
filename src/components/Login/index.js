@@ -61,11 +61,8 @@ class Login extends Component {
     return (
       <div className="login-container">
         <div className="login-info-section">
-          <h1 className="login-header">
-            Welcome To 👋
-            <br />
-            UNI Restro Cafe
-          </h1>
+          <h2>Welcome to 👋</h2>
+          <h1 className="login-header">UNI Resto Cafe </h1>
         </div>
         <div className="login-section">
           <form onSubmit={this.onFormSubmit} className="form">

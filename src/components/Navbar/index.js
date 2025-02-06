@@ -9,32 +9,40 @@ const Navbar = props => (
     {value => {
       const {cartList} = value
       const {restroName} = props
-      const logountHandler = () => {
+
+      const logoutHandler = () => {
         const {history} = props
         Cookies.remove('jwt_token')
         history.replace('/login')
       }
 
+      const cartCount = cartList.reduce(
+        (total, each) => total + each.quantity,
+        0,
+      )
+
       return (
         <nav className="navbar">
-          <ul className="nav-list ">
+          <ul className="nav-list">
             <li className="nav-list-item">
               <Link to="/" className="nav-link">
-                <h1 className="nav-heading">{restroName} </h1>
+                <h1 className="nav-heading">{restroName}</h1>
               </Link>
             </li>
             <li className="nav-list-item">
               <p>My Orders</p>
               <Link className="cart-link" to="/cart">
-                <button className="cart-btn" testid="cart">
+                <button data-testid="cart" className="cart-btn">
                   <IoIosCart size={25} />
-                  <p className="list-count">{cartList.length} </p>
                 </button>
               </Link>
+              <p data-testid="cartCount">{cartCount}</p>
               <button
-                onClick={logountHandler}
+                onClick={logoutHandler}
                 type="button"
                 className="logoutBtn"
+                role="button"
+                data-testid="logoutBtn"
               >
                 LOGOUT
               </button>
