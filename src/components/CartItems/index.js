@@ -11,6 +11,21 @@ const CartItems = ({eachOrder}) => (
         removeCartItem,
       } = value
 
+      const incrementBtn = () => {
+        incrementCartItemQuantity(eachOrder)
+      }
+
+      const decrementHandler = () => {
+        decrementCartItemQuantity(eachOrder)
+        if (eachOrder.quantity <= 1) {
+          removeCartItem(eachOrder.dish_id)
+        }
+      }
+
+      const removeHandler = () => {
+        removeCartItem(eachOrder.dish_id)
+      }
+
       const {
         dish_id,
         dish_currency,
@@ -20,67 +35,55 @@ const CartItems = ({eachOrder}) => (
         quantity,
       } = eachOrder
 
-      const updatedDish = {
-        id: dish_id,
-        dishCurrency: dish_currency,
-        dishImage: dish_image,
-        dishName: dish_name,
-        dishPrice: dish_price,
-        quantity,
-      }
-
-      const eachOrderTotalPrice = updatedDish.quantity * updatedDish.dishPrice
+      const eachOrderTotalPrice = quantity * dish_price
 
       return (
-        <li className='cart-item'>
+        <li
+          className="order-card"
+          id={dish_id}
+          data-testid={`cartItem-${dish_id}`}
+        >
           <img
-            className='cart-product-image'
-            src={updatedDish.dishName}
-            alt={updatedDish.dishName}
+            className="dish-card-img"
+            src={dish_image}
+            alt={dish_name}
+            data-testid="dishImage"
           />
-          <div className='cart-item-details-container'>
-            <div className='cart-product-title-brand-container'>
-              <p className='cart-product-title'>dishName</p>
-              <p className='cart-product-brand'>
-                by {updatedDish.dishCurrency} {updatedDish.dishPrice}
-              </p>
-            </div>
-            <div className='cart-quantity-container'>
+          <div className="dish-card-info">
+            <h3 data-testid="dishName">{dish_name}</h3>
+            <p>Quantity: {quantity}</p>
+            <p className="card-price-section">
+              Price: <span>{dish_currency}</span>
+              <span>{eachOrderTotalPrice}</span>
+            </p>
+            <hr />
+            <div className="cart-btns-section">
               <button
-                type='button'
-                className='quantity-controller-button'
-                onClick={() => decrementCartItemQuantity(eachOrder.dish_id)}
-                aria-label='Decrement quantity'
-                data-testid='minus'
-              >
-                -
-              </button>
-
-              <p className='cart-quantity' data-testid={`quantity-${dish_id}`}>
-                {updatedDish.quantity}
-              </p>
-              <button
-                type='button'
-                className='quantity-controller-button'
-                onClick={() => incrementCartItemQuantity(eachOrder)}
-                aria-label='Increment quantity'
-                data-testid='plus'
+                onClick={incrementBtn}
+                className="incrementBtn"
+                type="button"
+                data-testid="incrementBtn"
               >
                 +
               </button>
-            </div>
-            <div className='total-price-remove-container'>
-              <p className='cart-total-price'>
-                {updatedDish.dishCurrency} {eachOrderTotalPrice}/-
+              <p className="counter" data-testid="dishQuantity">
+                {quantity}
               </p>
               <button
-                type='button'
-                className='remove-button'
-                onClick={() => removeCartItem(updatedDish.id)}
-                aria-label='Remove item'
-                data-testid='remove'
+                onClick={decrementHandler}
+                className="decrementBtn"
+                type="button"
+                data-testid="decrementBtn"
               >
-                <IoRemove color='#D9534F' size={16} />
+                -
+              </button>
+              <button
+                onClick={removeHandler}
+                className="removeBtn"
+                type="button"
+                data-testid="removeBtn"
+              >
+                <IoRemove />
               </button>
             </div>
           </div>
