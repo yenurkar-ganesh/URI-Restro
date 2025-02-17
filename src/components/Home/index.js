@@ -3,14 +3,13 @@ import './index.css'
 import Navbar from '../Navbar'
 import TableMenu from '../TableMenu'
 import Dishes from '../Dishes'
-import {ThreeDots} from 'react-loader-spinner'
 import Loader from 'react-loader-spinner'
 
 class Home extends Component {
   state = {
-    initialRestroData: [],
+    restaurantData: {},
     isLoading: true,
-    restroTableMenu: [],
+    menuCategories: [],
     activeCategory: '',
     categoryDishes: [],
   }
@@ -20,60 +19,59 @@ class Home extends Component {
   }
 
   getMenuList = async () => {
-    const apiUrl = `https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details`
-    const options = {
-      method: 'GET',
-    }
     try {
-      const response = await fetch(apiUrl, options)
+      const response = await fetch(
+        `https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details`,
+      )
       if (response.ok) {
         const data = await response.json()
-        const firstCategory = data[0].table_menu_list[0]
+        const firstCategory = data[0]?.table_menu_list[0] || {}
+
         this.setState({
-          initialRestroData: data[0],
-          restroTableMenu: data[0].table_menu_list,
-          activeCategory: firstCategory.menu_category,
-          categoryDishes: firstCategory.category_dishes,
+          restaurantData: data[0] || {},
+          menuCategories: data[0]?.table_menu_list || [],
+          activeCategory: firstCategory.menu_category || '',
+          categoryDishes: firstCategory.category_dishes || [],
           isLoading: false,
         })
+      } else {
+        throw new Error('Failed to fetch data')
       }
     } catch (error) {
-      console.error(`Error while fetching data :: ${error}`)
+      console.error(`Error fetching data: ${error}`)
+      this.setState({isLoading: false})
     }
   }
 
-  updateCategoryDishes = wholeCategory => {
+  updateCategoryDishes = category => {
     this.setState({
-      activeCategory: wholeCategory.menu_category,
-      categoryDishes: wholeCategory.category_dishes,
+      activeCategory: category.menu_category,
+      categoryDishes: category.category_dishes,
     })
   }
 
   render() {
     const {
-      restroTableMenu,
+      menuCategories,
       isLoading,
       activeCategory,
       categoryDishes,
-      initialRestroData,
+      restaurantData,
     } = this.state
-    console.log(initialRestroData)
-    const restroName = initialRestroData.restaurant_name
-    console.log(restroName)
 
     return (
-      <div className="">
-        <Navbar restroName={restroName} />
+      <div>
+        <Navbar restroName={restaurantData.restaurant_name} />
         <ul className="restro-table-menu-category">
           {isLoading ? (
             <div className="loader-container" data-testid="loader">
-              <Loader type="ThreeDots" color="#FF033E" height="50" width="50" />
+              <Loader type="ThreeDots" color="#FF033E" height={50} width={50} />
             </div>
           ) : (
-            restroTableMenu.map(eachCategory => (
+            menuCategories.map(category => (
               <TableMenu
-                key={eachCategory.menu_category_id}
-                eachCategory={eachCategory}
+                key={category.menu_category_id}
+                eachCategory={category}
                 categoryDishes={this.updateCategoryDishes}
                 activeCategory={activeCategory}
               />
@@ -83,7 +81,7 @@ class Home extends Component {
         <ul className="category-dishes-list">
           {isLoading ? (
             <div className="loader-container" data-testid="loader">
-              <Loader type="ThreeDots" color="#FF033E" height="50" width="50" />
+              <Loader type="ThreeDots" color="#FF033E" height={50} width={50} />
             </div>
           ) : (
             categoryDishes.map(dish => (

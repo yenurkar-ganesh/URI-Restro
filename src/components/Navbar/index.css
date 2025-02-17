@@ -73,3 +73,60 @@
   border: none;
   cursor: pointer;
 }
+.nav-bar-img {
+  width: 25px;
+}
+.cart-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-count-badge {
+  background-color: #bfdbfe;
+  color: #0967d2;
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 50%;
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+  margin-left: 8px;
+  text-decoration: none;
+}
+.nav-bar-large-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1110px;
+}
+.nav-header {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgb(243, 243, 243);
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-self: flex-end;
+  flex: 1;
+  list-style-type: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.nav-menu-item,
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0px 6px;
+}
+.nav-logo {
+  text-decoration: none;
+  color: black;
+}

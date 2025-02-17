@@ -1,87 +1,95 @@
-import './App.css'
 import {useState, useEffect} from 'react'
-import {Route, BrowserRouter, Switch} from 'react-router-dom'
-import Home from './components/Home'
-import CartRoute from './components/CartRoute'
-import Login from './components/Login'
+import {Route, Switch} from 'react-router-dom'
 import CartContext from './context/CartContext'
+import Login from './components/Login'
+import Home from './components/Home'
+import Cart from './components/Cart'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   const [cartList, setCartList] = useState(() => {
-    const storedCart = localStorage.getItem('cartList')
-    return storedCart ? JSON.parse(storedCart) : []
+    try {
+      const storedCart = localStorage.getItem('storedCart')
+      return storedCart ? JSON.parse(storedCart) : []
+    } catch (error) {
+      return []
+    }
   })
 
-  const incrementCartItemQuantity = dish => {
-    setCartList(prevList =>
-      prevList.map(eachDish =>
-        eachDish.dish_id === dish.dish_id
-          ? {...eachDish, quantity: eachDish.quantity + 1}
-          : eachDish,
+  useEffect(() => {
+    localStorage.setItem('storedCart', JSON.stringify(cartList))
+  }, [cartList])
+
+  const setAndStoreCart = newCart => {
+    setCartList(newCart)
+    localStorage.setItem('storedCart', JSON.stringify(newCart))
+  }
+
+  const addCartItem = product => {
+    setAndStoreCart(prevCartList => {
+      const existingProduct = prevCartList.find(
+        item => item.dish_id === product.dish_id,
+      )
+      if (existingProduct) {
+        return prevCartList.map(item =>
+          item.dish_id === product.dish_id
+            ? {
+                ...item,
+                quantity: (item.quantity || 1) + (product.quantity || 1),
+              }
+            : item,
+        )
+      }
+      return [...prevCartList, {...product, quantity: product.quantity || 1}]
+    })
+  }
+
+  const removeCartItem = productId => {
+    setAndStoreCart(prevCartList =>
+      prevCartList.filter(item => item.dish_id !== productId),
+    )
+  }
+
+  const incrementCartItemQuantity = productId => {
+    setAndStoreCart(prevCartList =>
+      prevCartList.map(item =>
+        item.dish_id === productId
+          ? {...item, quantity: item.quantity + 1}
+          : item,
       ),
     )
   }
 
-  const decrementCartItemQuantity = dishId => {
-    setCartList(prevList =>
-      prevList.map(item =>
-        item.dish_id === dishId && item.quantity > 0
-          ? {...item, quantity: item.quantity - 1}
+  const decrementCartItemQuantity = productId => {
+    setAndStoreCart(prevCartList =>
+      prevCartList.map(item =>
+        item.dish_id === productId
+          ? {...item, quantity: Math.max(0, item.quantity - 1)}
           : item,
       ),
     )
   }
 
   const removeAllCartItems = () => {
-    setCartList([])
+    setAndStoreCart([])
   }
-
-  const removeCartItem = dishId => {
-    setCartList(prevList =>
-      prevList.filter(eachDish => eachDish.dish_id !== dishId),
-    )
-  }
-
-  const addCartItem = newItem => {
-    setCartList(prevList => {
-      const existingItem = prevList.find(
-        item => item.dish_id === newItem.dish_id,
-      )
-
-      if (existingItem) {
-        return prevList.map(item =>
-          item.dish_id === newItem.dish_id
-            ? {...item, quantity: item.quantity + newItem.quantity}
-            : item,
-        )
-      }
-      return [...prevList, newItem]
-    })
-  }
-
-  useEffect(() => {
-    localStorage.setItem('cartList', JSON.stringify(cartList))
-  }, [cartList])
 
   return (
     <CartContext.Provider
       value={{
         cartList,
+        addCartItem,
+        removeCartItem,
         incrementCartItemQuantity,
         decrementCartItemQuantity,
         removeAllCartItems,
-        removeCartItem,
-        addCartItem,
       }}
     >
-      <BrowserRouter>
-        <Switch>
-          <ProtectedRoute exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/cart" component={CartRoute} />
-        </Switch>
-      </BrowserRouter>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <ProtectedRoute exact path="/" component={Home} />
+        <ProtectedRoute exact path="/cart" component={Cart} />
+      </Switch>
     </CartContext.Provider>
   )
 }
