@@ -2,12 +2,40 @@ import './index.css'
 import {Link, useHistory} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {IoIosCart} from 'react-icons/io'
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 import CartContext from '../../context/CartContext'
 
 const Navbar = ({restroName}) => {
-  const {cartList} = useContext(CartContext)
+  const {cartList, setCartList} = useContext(CartContext) // Add setCartList
   const history = useHistory()
+
+  // Initialize dish counts to 0 for all dishes
+  const [dishCounts, setDishCounts] = useState(Array.from({length: 5-1}, () => 0))
+
+  // Calculate total cart items correctly
+  const totalCartItems = cartList.reduce(
+    (acc, item) => acc + (item.quantity || 0),
+    0,
+  )
+
+  // Handle decrement logic
+  const handleDecrement = index => {
+    setDishCounts(prevCounts => {
+      const newCounts = [...prevCounts]
+      if (newCounts[index] > 0) {
+        newCounts[index] -= 1
+
+        // Update the cartList to reflect the decrement
+        const updatedCartList = cartList.map((item, i) =>
+          i === index
+            ? {...item, quantity: Math.max(item.quantity - 1, 0)}
+            : item,
+        )
+        setCartList(updatedCartList)
+      }
+      return newCounts
+    })
+  }
 
   const logoutHandler = () => {
     Cookies.remove('jwt_token')
@@ -31,7 +59,14 @@ const Navbar = ({restroName}) => {
               <IoIosCart size={25} />
             </button>
           </Link>
-          <p data-testid="cartCount">{cartList.length}</p>
+          <div>
+            {/* Render initial dish counts */}
+            {dishCounts.map((count, index) => (
+              <p key={index}>{count}</p>
+            ))}
+          </div>
+          {/* Display total cart items */}
+          <p data-testid="cartCount">{totalCartItems }</p>
           <button
             onClick={logoutHandler}
             type="button"

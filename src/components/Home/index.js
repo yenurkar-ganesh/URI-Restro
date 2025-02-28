@@ -62,10 +62,11 @@ class Home extends Component {
     return (
       <div>
         <Navbar restroName={restaurantData.restaurant_name} />
-        <ul className="restro-table-menu-category">
+        <h1 role='heading'>Nxt Cafe</h1>
+        <ul className='restro-table-menu-category'>
           {isLoading ? (
-            <div className="loader-container" data-testid="loader">
-              <Loader type="ThreeDots" color="#FF033E" height={50} width={50} />
+            <div className='loader-container' data-testid='loader'>
+              <Loader type='ThreeDots' color='#FF033E' height={50} width={50} />
             </div>
           ) : (
             menuCategories.map(category => (
@@ -78,10 +79,10 @@ class Home extends Component {
             ))
           )}
         </ul>
-        <ul className="category-dishes-list">
+        <ul className='category-dishes-list'>
           {isLoading ? (
-            <div className="loader-container" data-testid="loader">
-              <Loader type="ThreeDots" color="#FF033E" height={50} width={50} />
+            <div className='loader-container' data-testid='loader'>
+              <Loader type='ThreeDots' color='#FF033E' height={50} width={50} />
             </div>
           ) : (
             categoryDishes.map(dish => (

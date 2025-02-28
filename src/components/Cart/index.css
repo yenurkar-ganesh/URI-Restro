@@ -59,3 +59,16 @@
   outline: none;
   border-radius: 8px;
 }
+.cart-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

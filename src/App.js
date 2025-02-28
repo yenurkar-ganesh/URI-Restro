@@ -8,50 +8,38 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   const [cartList, setCartList] = useState(() => {
-    try {
-      const storedCart = localStorage.getItem('storedCart')
-      return storedCart ? JSON.parse(storedCart) : []
-    } catch (error) {
-      return []
-    }
+    const storedCart = localStorage.getItem('cart')
+    return storedCart ? JSON.parse(storedCart) : []
   })
 
   useEffect(() => {
-    localStorage.setItem('storedCart', JSON.stringify(cartList))
+    localStorage.setItem('cart', JSON.stringify(cartList))
   }, [cartList])
 
-  const setAndStoreCart = newCart => {
-    setCartList(newCart)
-    localStorage.setItem('storedCart', JSON.stringify(newCart))
-  }
-
   const addCartItem = product => {
-    setAndStoreCart(prevCartList => {
+    setCartList(prevCartList => {
       const existingProduct = prevCartList.find(
         item => item.dish_id === product.dish_id,
       )
       if (existingProduct) {
         return prevCartList.map(item =>
           item.dish_id === product.dish_id
-            ? {
-                ...item,
-                quantity: (item.quantity || 1) + (product.quantity || 1),
-              }
+            ? {...item, quantity: item.quantity + product.quantity}
             : item,
         )
       }
-      return [...prevCartList, {...product, quantity: product.quantity || 1}]
+      return [...prevCartList, product]
     })
   }
 
   const removeCartItem = productId => {
-    setAndStoreCart(prevCartList =>
+    setCartList(prevCartList =>
       prevCartList.filter(item => item.dish_id !== productId),
     )
   }
 
   const incrementCartItemQuantity = productId => {
-    setAndStoreCart(prevCartList =>
+    setCartList(prevCartList =>
       prevCartList.map(item =>
         item.dish_id === productId
           ? {...item, quantity: item.quantity + 1}
@@ -61,19 +49,20 @@ const App = () => {
   }
 
   const decrementCartItemQuantity = productId => {
-    setAndStoreCart(prevCartList =>
-      prevCartList.map(item =>
-        item.dish_id === productId
-          ? {...item, quantity: Math.max(0, item.quantity - 1)}
-          : item,
-      ),
+    setCartList(prevCartList =>
+      prevCartList
+        .map(item =>
+          item.dish_id === productId
+            ? {...item, quantity: item.quantity - 1}
+            : item,
+        )
+        .filter(item => item.quantity > 0),
     )
   }
 
   const removeAllCartItems = () => {
-    setAndStoreCart([])
+    setCartList([])
   }
-
   return (
     <CartContext.Provider
       value={{
